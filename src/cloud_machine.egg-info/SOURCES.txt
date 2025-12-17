@@ -1,8 +1,0 @@
-README.md
-pyproject.toml
-src/cloud_machine/__init__.py
-src/cloud_machine/main.py
-src/cloud_machine.egg-info/PKG-INFO
-src/cloud_machine.egg-info/SOURCES.txt
-src/cloud_machine.egg-info/dependency_links.txt
-src/cloud_machine.egg-info/top_level.txt

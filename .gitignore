@@ -1,10 +1,18 @@
+# random env stuff
 .venv/
 venv/
-
+__pycache__/
 *.egg-info/
 
+# vscode mess
 .vscode-server/
 .vscode-remote/
+.vscode/
 
+# nobody cares ab these
 logs/
 *.log
+
+# secrets
+.env
+*.key
