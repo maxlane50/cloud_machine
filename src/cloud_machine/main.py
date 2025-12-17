@@ -38,9 +38,8 @@ def main() -> int:
         env=os.environ.get("KALSHI_ENV", "demo"),
     )
 
-    ticker = "KXPRESPERSON-28" # president!
     # main polling loop
-    poll_kalshi(client, is_running, ticker)
+    poll_kalshi(client, is_running)
 
 if __name__ == "__main__":
     main()

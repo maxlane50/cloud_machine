@@ -10,10 +10,6 @@ POLL_INTERVAL_SECONDS = 5
 logger = logging.getLogger("cloud_machine")
 
 def parse_bbos(ob_json: dict):
-    """
-    {"orderbook": {"yes": [[price, qty], ...], "no": [[price, qty], ...]}}
-    get YES ask from NO bid: YES_ask = 100 - best_NO_bid
-    """
     book = ob_json.get("orderbook", {}) or {}
     yes = book.get("yes", []) or []
     no = book.get("no", []) or []
@@ -25,13 +21,10 @@ def parse_bbos(ob_json: dict):
 
     return best_yes_bid, best_yes_ask
 
-def poll_kalshi(client: KalshiClient, is_running_cb, ticker: str) -> None:
+def poll_kalshi(client: KalshiClient, is_running_cb) -> None:
     while is_running_cb():
         try:
-            #mkt = client.get("/trade-api/v2/events/" + TICKER)
-            
             book = client.get(f"/trade-api/v2/markets/{TICKER}/orderbook")
-            #print(json.dumps(book, indent=2))
             bid, ask = parse_bbos(book)
             midpoint = (None if (bid is None or ask is None) else (bid + ask) / 2.0)
             logger.info("ticker=%s, bid=%s, ask=%s, mid=%s", TICKER, bid, ask, midpoint)
