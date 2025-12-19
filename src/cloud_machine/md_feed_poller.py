@@ -4,6 +4,9 @@ import logging
 import json
 import requests
 from cloud_machine.kalshi_client import KalshiClient
+from cloud_machine.market_discovery.selector import get_today_chicago_high_temp_event
+#from cloud_machine.market_discovery.selector import get_market_tickers_from_event
+
 
 TICKER = "KXPRESPERSON-28-JVAN"
 POLL_INTERVAL_SECONDS = 5
@@ -22,6 +25,23 @@ def parse_bbos(ob_json: dict):
     return best_yes_bid, best_yes_ask
 
 def poll_kalshi(client: KalshiClient, is_running_cb) -> None:
+
+    # find the ticker for current high temp event
+    chi_temp_event = get_today_chicago_high_temp_event(client)
+
+    # within that event, fetch the tickers for the different temps
+    market_tickers = get_market_tickers_from_event(event)
+
+    # for now, just pick the first
+    # TODO: select by highest volume
+    ticker = market_tickers[0]
+
+    logger.info("today event_ticker=%s", event.get("event_ticker"))
+    logger.info("found %d market tickers", len(market_tickers))
+    logger.info("market tickers=%s", market_tickers)
+
+    
+
     while is_running_cb():
         try:
             book = client.get(f"/trade-api/v2/markets/{TICKER}/orderbook")

@@ -1,0 +1,1 @@
+# manage when a market rolls from one day to the next
